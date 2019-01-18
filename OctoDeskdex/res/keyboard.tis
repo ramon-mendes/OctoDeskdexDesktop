@@ -1,0 +1,27 @@
+self.on("keydown", function(evt) {
+	if(evt.keyCode == Event.VK_F5)
+	{
+		view.load(self.url());
+		return true;
+	}
+});
+
+self.on("~keydown", function(evt) {
+	var ctrl;
+	var none = !evt.commandKey && !evt.ctrlKey && !evt.shiftKey && !evt.altKey
+	if(Utils.IsWindows)
+		ctrl = evt.ctrlKey && !evt.shiftKey && !evt.altKey;
+	else
+		ctrl = evt.commandKey && !evt.shiftKey && !evt.altKey;
+
+	if(ctrl)
+	{
+		switch(evt.keyCode)
+		{
+		case Event.VK_W:
+		case Event.VK_Q:
+			view.close();
+			return true;
+		}
+	}
+});

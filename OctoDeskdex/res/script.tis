@@ -1,0 +1,203 @@
+// DBG ----------------------------------------------------------------------------------------
+/*self.timer(100, function() {
+	SetupRequest(function() {
+		self.@.addClass("show-inner");
+		self#front-wrap.@.addClass("hidden");
+		self#inner-left.@.removeClass("hidden");
+	});
+});*/
+
+/*function self#btn-dbg.onClick()
+{
+	log("click");
+	$(select).value = 0;
+	$(select).postEvent("change");
+}*/
+
+
+// UI handler - front ----------------------------------------------------------------------------------------
+self#f-open-dex.onClick = function() {
+	self#front.@.addClass("intrans-hide1");
+	self#front.@.addClass("intrans-show1");
+	self#f-loader.@.addClass("show");
+
+	SetupRequest(function() {
+		self.timer(1200, function() {
+			self#front.@.addClass("intrans-show2");
+			self#f-loader.@.removeClass("show");
+
+			self.timer(1200, function() {
+				self#front.@.addClass("intrans-hide2");
+
+				self.timer(300, function() {
+					self.@.addClass("show-inner");
+					self#front-wrap.@.addClass("hidden");
+					self#inner-left.@.removeClass("hidden");
+				});
+			});
+		});
+	});
+	return true;
+};
+
+self#btn-close.onClick = ::view.close();
+
+
+// Setups
+function SetupRequest(fdone)
+{
+	self.request(function(data, status) {
+		if(status==200)
+		{
+			FillList(data);
+			fdone();
+		} else {
+			view.msgbox("Failed to load JSON data. Check your internet connection!");
+			view.close();
+		}
+	}, #get, "http://misoftware.com.br/cdn/octodexapi.php");
+}
+
+function FillList(data)
+{
+	var el_sel = $(select);
+	for(var (i, item) in data)
+	{
+		el_sel.$append(<option value="{i}" class="btn">#{item.number} - {item.name}</option>);//<figure />
+	}
+	
+	el_sel.on("change", function(e) {
+		var item = data[this.value];
+		LoadImage(item);
+	});
+	el_sel.value = rand(data.length);
+	el_sel.postEvent("change");
+}
+
+var g_loadedmap = {};
+var g_lastimg = $(#iwrap div);
+var g_imgurl;
+var g_overflow = false;
+function LoadImage(item)
+{
+	g_imgurl = "https://octodex.github.com" + item.image;
+	self#desc.@.removeClass("show");
+	if( !g_loadedmap.exists(g_imgurl) )
+	{
+		g_loadedmap[g_imgurl] = true;
+		g_lastimg.@.addClass("loading");
+		self#iloader.@.addClass("loading");
+
+		self.loadImage(g_imgurl, function() {
+			self.loadImage(item.authorAvatar, function() {
+				self#iloader.@.removeClass("loading");
+				ChangeImage(item);
+			});
+		});
+	} else {
+		ChangeImage(item);
+	}
+}
+
+function ChangeImage(item)
+{
+	g_lastimg.remove();
+
+	// add new image
+	g_lastimg = new Element(#div);
+	self#iwrap.insert(g_lastimg);
+	if(g_overflow)
+		g_lastimg.style#foreground-image = "url(" + g_imgurl + ")";
+	else
+		g_lastimg.style#background-image = "url(" + g_imgurl + ")";
+
+	// update author
+	$(#name span).text = item.name;
+	$(#avatar).@#src = item.authorAvatar;
+	self#desc.@.addClass("show");
+}
+
+
+// UI handlers - inner ----------------------------------------------------------------------------------------
+self#btn-close-dex.onClick = function() {
+	self.@.removeClass("show-inner");
+
+	self.timer(1500, function() {
+		self#front-wrap.@.removeClass("hidden");
+		self#inner-left.@.addClass("hidden");
+		self#front.@.removeClass("intrans-hide2");
+		self#front.@.removeClass("intrans-show2");
+		self.timer(1000, function() {
+			self#front.@.removeClass("intrans-hide1");
+		});
+	});
+};
+self#exit-app-btn.onClick = function() {
+	view.close();
+};
+
+self#btn-forkme.onClick = function() {
+	this.@.toggleClass("active");
+	self#forkme.@.toggleClass("show");
+};
+self#btn-round.onClick = function() {
+	this.@.toggleClass("active");
+	self#iwrap.@.toggleClass("round");
+};
+self#btn-hideborder.onClick = function() {
+	this.@.toggleClass("active");
+	self#iwrap.@.toggleClass("noborder");
+};
+self#btn-saymyname.onClick = function() {
+	this.@.toggleClass("active");
+	self#tail.@.toggleClass("show");
+	self#tail-img.@.toggleClass("show");
+	self#tail-midi.@.toggleClass("show");
+};
+self#btn-kofi.onClick = function() {
+	this.@.toggleClass("active");
+	self#area-stats.@.toggleClass("show");
+	self#area-site.@.toggleClass("show");
+};
+
+self#forkme.onClick = ::Sciter.launch("https://github.com/midiway/OctoDeskdex");
+self#tail-img.onClick = self#tail-midi.onClick = ::Sciter.launch("http://misoftware.rs");
+
+/*self.timer(500, function() {
+	try
+	{
+		var stats = view.Host_Stats();// will BE CATCHED bellow heehehe
+		var text_mem = HS_Bytesize(stats.memory).toString();
+		var text_cpu = stats.cpu.toInteger().toString();
+		self#area-stats.text = text_mem + " / " + text_cpu + "%";
+	} catch(e) {
+	}
+	return true;
+});*/
+
+
+// Utils ----------------------------------------------------------------------------------------------------
+function round(num, to = 100.0) {
+	return (num * to + 0.5).toInteger() / to;
+}
+
+function HS_Bytesize(bytes) {
+    var sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+    var posttxt = 0;
+    while( bytes >= 1024.0 ) {
+        posttxt++;
+        bytes = bytes / 1024.0;
+    }
+    return round(bytes).toString() + " " + sizes[posttxt];
+}
+
+for(var el in $$(.tooltiped))
+{
+	el.on("mouseenter", function() {
+		self#tooltip.text = this.@#tip;
+		this.popup(self#tooltip, (2 << 16) | 8);
+	});
+	el.on("mouseleave", function() {
+		self#tooltip.closePopup();
+	});
+}

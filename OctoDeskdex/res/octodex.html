@@ -1,0 +1,113 @@
+<!-- OmniView:on, console:off -->
+<html window-frame="transparent">
+<head>
+	<style>
+		html { background: none; }
+		body { margin: 0; flow: horizontal; }
+
+		@import url(style-front.css);
+		@import url(style-inner.css);
+	</style>
+	
+	<script type="text/tiscript">
+		include "script.tis";
+		include "keyboard.tis";
+
+		var dragging = false;
+		var offset_x, offset_y;
+
+		Utils.installLinkHandler(self);
+
+		self.onMouse = function(evt) {
+			if(evt.type == (Event.MOUSE_DOWN | Event.SINKING) && dragging == false)
+			{
+				if(evt.target.$is(.btn))
+					return;
+
+				var (x_view, y_view) = view.box(#position, #border);
+				offset_x = evt.x - x_view;
+				offset_y = evt.y - y_view;
+				self.capture(#strict);
+				dragging = true;
+			}
+
+			else if(dragging && evt.type == Event.MOUSE_MOVE)
+			{
+				view.move(evt.xScreen - offset_x, evt.yScreen - offset_y);
+			}
+
+			else if(dragging && (evt.type == Event.MOUSE_UP || evt.type == Event.MOUSE_LEAVE))
+			{
+				self.capture(false);
+				dragging = false;
+			}
+		};
+	</script>
+</head>
+
+<body>
+	<section #front>
+		<div #front-wrap>
+			<figure #f-octo />
+			<figure #f-wow />
+			<figure #f-wband>
+				<div #btn-close .btn />
+			</figure>
+			<figure #f-open-dex .btn />
+			<figure #f-title />
+			<figure #f-loader />
+		</div>
+
+		<div #inner-left.hidden>
+			<div #forkme />
+			<div #iloader />
+			<div #iwrap>
+				<div />
+			</div>
+
+			<div #desc>
+				<div #wraper>
+					<span #name>
+						the <span /> by
+					</span>
+					<img #avatar />
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section #inner-right>
+		<div #wrap-right>
+			<div #areas>
+				<div #area-btns>
+					<div .box-btn .tooltiped .btn #btn-forkme tip="Fork me"><div .inner .btn /></div>
+					<div .box-btn .tooltiped .btn #btn-round tip="Round frame"><div .inner .btn /></div>
+					<div .box-btn .tooltiped .btn #btn-hideborder tip="Hide border"><div .inner .btn /></div>
+					<div .box-btn .tooltiped .btn #btn-saymyname tip="Say my name!"><div .inner .btn /></div>
+					<div .box-btn .tooltiped .btn #btn-kofi tip="Ko-fi"><div .inner .btn /></div>
+				</div>
+
+				<div #area-stats>
+					<a href="https://ko-fi.com/V7V6HOMF"><img src="kofi.png" /></a>
+				</div>
+				<div #area-site>
+					..if you like my content
+				</div>
+				<div #btn-close-dex .btn />
+
+				<div #tail>
+					<a #tail-img .btn />
+					<a #tail-midi .btn />
+				</div>
+				<select size="3"/>
+			</div>
+
+			<div #exit-app-bg />
+			<div #exit-app-btn .btn />
+		</div>
+	</section>
+
+	<popover #tooltip/>
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+﻿[
+  {
+    "outputFile": "res/html/style-front.css",
+    "inputFile": "res/html/style-front.scss"
+  },
+  {
+    "outputFile": "res/html/style-inner.css",
+    "inputFile": "res/html/style-inner.scss"
+  },
+  {
+    "outputFile": "res/html/main.css",
+    "inputFile": "res/html/main.scss"
+  }
+]
