@@ -4,7 +4,7 @@ The Octodex desktop version.
 
 Yes, that's it, a Pokedex of Octocats!
 
-![OctoDeskdex](https://github.com/midiway/OctoDeskdex_Desktop/raw/master/octodeskdex.gif)
+![OctoDeskdex](https://github.com/ramon-mendes/OctoDeskdex_Desktop/raw/master/octodeskdex.gif)
 
 
 ## Download for
