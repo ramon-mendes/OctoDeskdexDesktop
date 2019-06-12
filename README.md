@@ -49,7 +49,7 @@ Maybe you may like my other app for designers: http://designarsenal.co/
 
 What about we creating something together? I am always looking for projects where I can really come handy in helping in your development needs.
 
-I am a full-stack developer and my main language/platform is C#/Azure. I also do cross-platform desktop software like this one! Check my tool for designer's productivity: http://designarsenal.co/
+I am a full-stack developer and my main language/platform is C#/Azure. I also do cross-platform desktop software like this one!
 
 Don't hesitate [to get in touch](http://misoftware.com.br/Home/Services).
 

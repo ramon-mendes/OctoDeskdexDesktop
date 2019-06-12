@@ -60,8 +60,8 @@
     <ApplicationIcon>Resources\IconMain.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SciterSharpWindows, Version=2.0.68.0, Culture=neutral, PublicKeyToken=917100d643775a9e, processorArchitecture=MSIL">
-      <HintPath>..\packages\SciterSharpWindows.2.0.68\lib\net45\SciterSharpWindows.dll</HintPath>
+    <Reference Include="SciterSharpWindows, Version=2.0.80.0, Culture=neutral, PublicKeyToken=917100d643775a9e, processorArchitecture=MSIL">
+      <HintPath>..\packages\SciterSharpWindows.2.0.80\lib\net45\SciterSharpWindows.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -130,6 +130,9 @@
     <Content Include="res\wband.png" />
     <Content Include="res\wow.png" />
     <Content Include="sciter.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sciter2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

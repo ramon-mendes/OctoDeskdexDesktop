@@ -20,6 +20,8 @@ namespace OctoDeskdex
 			host.AttachEvh(new HostEvh());
 			host.SetupPage("octodex.html");
 			wnd.Show();
+
+			host.DebugInspect();
 		}
 
 		// Things to do here:
